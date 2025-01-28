@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
-    List<PedidoPorjection> findByUser_Id(Long id); //search id
+    List<PedidoPorjection> findByMesa_Id(Long id); //search id
 
 }

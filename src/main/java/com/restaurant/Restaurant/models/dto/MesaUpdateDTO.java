@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserUpdateDTO {
+public class MesaUpdateDTO {
 
     private Long id;
 

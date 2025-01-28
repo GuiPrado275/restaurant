@@ -10,7 +10,7 @@ import java.util.Objects;
 public enum ProfileEnum {
 
     ADMIN(1, "ROLE_ADMIN"),
-    USER(2, "ROLE_USER");
+    MESA(2, "ROLE_MESA");
 
     private Integer code;
     private String description;

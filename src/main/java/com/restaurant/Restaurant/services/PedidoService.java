@@ -1,12 +1,15 @@
 package com.restaurant.Restaurant.services;
 
 import com.restaurant.Restaurant.models.Pedido;
-import com.restaurant.Restaurant.models.User;
+import com.restaurant.Restaurant.models.Mesa;
+import com.restaurant.Restaurant.models.projection.PedidoPorjection;
 import com.restaurant.Restaurant.repositories.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,7 +19,9 @@ public class PedidoService {
     private PedidoRepository pedidoRepository;
 
     @Autowired
-    private UserService userService;
+    private MesaService mesaService;
+
+    private Mesa mesa;
 
     public Pedido findById(Long id) {
         Optional<Pedido> pedido = this.pedidoRepository.findById(id);
@@ -25,11 +30,18 @@ public class PedidoService {
 
     }
 
+
+    public List<PedidoPorjection> findAllByMesa() {
+        List<PedidoPorjection> pedidos = this.pedidoRepository.findByMesa_Id(mesa.getId());//find the tasks
+        return pedidos;
+    }
+
+
     @Transactional
     public Pedido create(Pedido obj) {
-        User user = this.userService.findById(obj.getUser().getId());
+        Mesa mesa = this.mesaService.findById(obj.getMesa().getId());
         obj.setId(null);
-        obj.setUser(user);
+        obj.setMesa(mesa);
         obj = this.pedidoRepository.save(obj);
         return obj;
     }

@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UserCreateDTO {
+public class MesaCreateDTO {
 
     @NotBlank
     @Size(min = 2, max = 100)
-    private String username;
+    private String numMesa;
 
     @NotBlank
     @Size(min = 8, max = 60)

@@ -22,8 +22,8 @@ public class Pedido {
     private Long Id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false, updatable = false)
-    private User user;
+    @JoinColumn(name = "mesa_id", nullable = false, updatable = false)
+    private Mesa mesa;
 
     @Column(name = "description", length = 255, nullable = false)
     @Size(min = 1, max = 255)

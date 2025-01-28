@@ -12,23 +12,23 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = User.TABLE_NAME)
+@Table(name = Mesa.TABLE_NAME)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Mesa {
 
-    public static final String TABLE_NAME = "user"; // table name in database
+    public static final String TABLE_NAME = "mesa"; // table name in database
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "username", length = 100, nullable = false, unique = true)
+    @Column(name = "num_Mesa", length = 100, nullable = false, unique = true)
     @Size(min = 2, max = 100)
     @NotBlank
-    private String username;
+    private String numMesa;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", length = 60, nullable = false)
@@ -36,21 +36,21 @@ public class User {
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_profile")
-    @Column(name = "profile", nullable = false)
+    @CollectionTable(name = "num_mesa")
+    @Column(name = "mesa", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Set<Integer> profiles = new HashSet<>();
+    private Set<Integer> mesas = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "mesa", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Pedido> pedidos = new HashSet<>();
 
     public Set<ProfileEnum> getProfiles() {
-        return this.profiles.stream()
+        return this.mesas.stream()
                 .map(ProfileEnum::toEnum)
                 .collect(Collectors.toSet());
     }
 
     public void addProfile(ProfileEnum profileEnum) {
-        this.profiles.add(profileEnum.getCode());
+        this.mesas.add(profileEnum.getCode());
     }
 }
