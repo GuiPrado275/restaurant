@@ -7,6 +7,7 @@ import com.restaurant.Restaurant.repositories.PedidoRepository;
 import com.restaurant.Restaurant.repositories.MesaRepository;
 
 import jakarta.validation.Valid;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 
 @Service
+@Getter
 public class MesaService {
 
     @Autowired
@@ -23,11 +25,13 @@ public class MesaService {
     @Autowired
     private MesaRepository mesaRepository;
 
+    @Transactional
     public Mesa findById(Long id) {
-        Optional<Mesa> mesa = this.mesaRepository.findById(id);
-        return mesa.orElseThrow(() -> new RuntimeException(
-                "Mesa não encontrada! Id: " + id + ", Tipo " + Mesa.class.getName()));
-
+        Mesa mesa = this.mesaRepository.findByIdWithPedidos(id); // Usa o método com JOIN FETCH
+        if (mesa == null) {
+            throw new RuntimeException("Mesa não encontrada! Id: " + id + ", Tipo " + Mesa.class.getName());
+        }
+        return mesa;
     }
 
     @Transactional //save in the bank

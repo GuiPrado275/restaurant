@@ -25,7 +25,7 @@ public class Mesa {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "num_Mesa", length = 100, nullable = false, unique = true)
+    @Column(name = "num_mesa", length = 100, nullable = false, unique = true)
     @Size(min = 2, max = 100)
     @NotBlank
     private String numMesa;
@@ -36,12 +36,12 @@ public class Mesa {
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "num_mesa")
-    @Column(name = "mesa", nullable = false)
+    @CollectionTable(name = "mesa_perfil", joinColumns = @JoinColumn(name = "mesa_id"))
+    @Column(name = "perfil", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Integer> mesas = new HashSet<>();
 
-    @OneToMany(mappedBy = "mesa", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "mesa", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Pedido> pedidos = new HashSet<>();
 
     public Set<ProfileEnum> getProfiles() {
@@ -54,3 +54,4 @@ public class Mesa {
         this.mesas.add(profileEnum.getCode());
     }
 }
+

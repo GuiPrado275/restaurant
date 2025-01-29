@@ -7,6 +7,7 @@ import com.restaurant.Restaurant.services.MesaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -22,13 +23,14 @@ public class MesaController {
     private MesaService mesaService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Mesa> findById(Long id) {
+    public ResponseEntity<Mesa> findById(@PathVariable Long id) {
         Mesa obj = this.mesaService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@Valid MesaCreateDTO obj) {
+    @Transactional
+    public ResponseEntity<Void> create(@Valid @RequestBody MesaCreateDTO obj) {
         Mesa mesa = this.mesaService.fromDTO(obj);
         Mesa newMesa = this.mesaService.create(mesa);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -37,13 +39,16 @@ public class MesaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@Valid @RequestBody MesaUpdateDTO obj, @PathVariable Long id){
+    @Transactional
+    public ResponseEntity<Void> update(@Valid @RequestBody MesaUpdateDTO obj, @PathVariable Long id) {
         obj.setId(id);
         Mesa mesa = this.mesaService.fromDTO(obj);
         this.mesaService.update(mesa);
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         this.mesaService.delete(id);
         return ResponseEntity.noContent().build();

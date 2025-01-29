@@ -1,6 +1,6 @@
 package com.restaurant.Restaurant.models.projection;
 
-public interface PedidoPorjection {
+public interface PedidoProjection {
 
     public Long getId();
 
